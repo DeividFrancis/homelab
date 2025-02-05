@@ -1,0 +1,37 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: portainer
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://portainer.github.io/k8s/
+    targetRevision: 1.0.59
+    chart: portainer
+    helm:
+      values: |
+        createNamespace: true
+        service:
+          type: ClusterIP
+        tls:
+          force: false
+        image:
+          tag: 2.21.5
+        ingress:
+          enabled: true
+          ingressClassName: traefik
+          annotations:
+            traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
+            traefik.ingress.kubernetes.io/router.tls: 'false'
+          hosts:
+            - host: portainerk8s.pantufasuja.com.br
+              paths:
+                - path: /
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: portainer
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

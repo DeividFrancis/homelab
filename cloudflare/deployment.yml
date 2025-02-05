@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: cloudflared
+  name: cloudflared-deployment
+  namespace: network
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      pod: cloudflared
+  template:
+    metadata:
+      annotations:
+        vault.hashicorp.com/role: "role-readonly"
+        vault.hashicorp.com/agent-inject: "true"
+        vault.hashicorp.com/agent-inject-status: "update"
+        vault.hashicorp.com/agent-inject-secret-cloudflare: "pantulab/cloudflare"
+        vault.hashicorp.com/agent-inject-template-credentials.json: |
+          {{- with secret "pantulab/cloudflare" -}}
+          {{ .Data.data.credentials_json }}
+          {{- end }}
+        vault.hashicorp.com/agent-inject-template-config.yml: |
+          {{- with secret "pantulab/cloudflare" -}}
+          {{ .Data.data.config_yml }}
+          {{- end }}
+
+      labels:
+        pod: cloudflared
+    spec:
+      containers:
+        - name: cloudflared
+          image: cloudflare/cloudflared:latest
+          command:
+            [
+              "cloudflared",
+              "tunnel",
+              "--config",
+              "/vault/secrets/config.yml",
+              "--metrics",
+              "0.0.0.0:2000",
+              "run",
+            ]
+          livenessProbe:
+            httpGet:
+              # Cloudflared has a /ready endpoint which returns 200 if and only if
+              # it has an active connection to the edge.
+              path: /ready
+              port: 2000
+            failureThreshold: 1
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          resources:
+            limits:
+              cpu: "500m"
+              memory: "1Gi"
