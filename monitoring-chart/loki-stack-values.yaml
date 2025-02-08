@@ -1,0 +1,35 @@
+loki-stack:
+  loki:
+    enabled: true
+    persistence:
+      enabled: true
+      size: 1Gi
+
+  promtail:
+    enabled: true
+
+  prometheus:
+    enabled: true
+
+  grafana:
+    enabled: true
+    dashboards:
+
+    sidecar:
+      datasources:
+        enabled: true
+    podAnnotations:
+      annotations: |
+      vault.hashicorp.com/role: "role-monitoring"
+      vault.hashicorp.com/agent-inject: "true"
+      vault.hashicorp.com/agent-inject-status: "update"
+      vault.hashicorp.com/agent-inject-secret-monitoring: "pantulab/monitoring"
+      vault.hashicorp.com/agent-inject-template-password: |
+        {{- with secret "pantulab/monitoring" -}}
+          {{ .Data.data.grafana_password }}
+        {{- end }}
+    env:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD__FILE: /vault/secrets/password
+    service:
+      type: ClusterIP
