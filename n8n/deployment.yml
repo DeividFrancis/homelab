@@ -9,6 +9,15 @@ spec:
       app: n8n
   template:
     metadata:
+      annotations:
+        vault.hashicorp.com/role: "role-n8n"
+        vault.hashicorp.com/agent-inject: "true"
+        vault.hashicorp.com/agent-inject-status: "update"
+        vault.hashicorp.com/agent-inject-secret-n8n: "pantulab/n8n"
+        vault.hashicorp.com/agent-inject-template-env: |
+          {{- with secret "pantulab/n8n" -}}
+            export N8N_ENCRYPTION_KEY="{{ .Data.data.N8N_ENCRYPTION_KEY }}"
+          {{- end }}
       labels:
         app: n8n
     spec:
@@ -16,19 +25,24 @@ spec:
         runAsUser: 1000
         runAsGroup: 1000
         fsGroup: 1000
-      volumes:
-        - name: n8n-pv-store
-          persistentVolumeClaim:
-            claimName: n8n-pv-claim
       containers:
         - name: n8n
-          image: docker.n8n.io/n8nio/n8n
+          image: n8nio/n8n:latest
+          command: ["sh", "-c"]
+          args: ["source /vault/secrets/env && tini -- /docker-entrypoint.sh"]
           ports:
             - containerPort: 5678
+          envFrom:
+            - configMapRef:
+                name: n8n-config-map
           volumeMounts:
-            - mountPath: "/home/node/.n8n"
-              name: n8n-pv-store
-          # resources:
-          #   limits:
-          #     cpu: "500m"
-          #     memory: "1Gi"
+            - name: n8n-pvc-store
+              mountPath: "/home/node/.n8n"
+          resources:
+            limits:
+              cpu: "500m"
+              memory: "1Gi"
+      volumes:
+        - name: n8n-pvc-store
+          persistentVolumeClaim:
+            claimName: n8n-pvc
