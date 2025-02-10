@@ -7,20 +7,24 @@ loki-stack:
 
   promtail:
     enabled: true
+    config:
+      clients:
+        - url: http://{{ .Release.Name }}-loki:3100/loki/api/v1/push
 
   prometheus:
     enabled: true
 
   grafana:
     enabled: true
-    dashboards:
 
     sidecar:
       datasources:
         enabled: true
+        initDatasources: true
     podAnnotations:
       annotations: |
       vault.hashicorp.com/role: "role-monitoring"
+      vault.hashicorp.com/agent-init-first: "true"
       vault.hashicorp.com/agent-inject: "true"
       vault.hashicorp.com/agent-inject-status: "update"
       vault.hashicorp.com/agent-inject-secret-monitoring: "pantulab/monitoring"
