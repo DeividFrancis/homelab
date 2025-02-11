@@ -42,8 +42,11 @@ spec:
               mountPath: "/home/node/.n8n"
           resources:
             limits:
-              cpu: "500m"
-              memory: "1Gi"
+              cpu: "300m"
+              memory: "512Mi"
+            requests:
+              cpu: "50m"
+              memory: "128Mi"
       volumes:
         - name: n8n-pvc-store
           persistentVolumeClaim:
