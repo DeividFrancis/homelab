@@ -47,7 +47,19 @@ loki-stack:
             editable: true
             options:
               path: /var/lib/grafana/dashboards/grafana-dashboards-kubernetes
+          - name: "grafana-dashboards-node-exporter"
+            orgId: 1
+            folder: "Node Exporter"
+            type: file
+            disableDeletion: true
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/grafana-dashboards-node-exporter
     dashboards:
+      grafana-dashboards-node-exporter:
+        node-exporter-full:
+          url: https://raw.githubusercontent.com/rfmoz/grafana-dashboards/refs/heads/master/prometheus/node-exporter-full.json
+          token: ""
       grafana-dashboards-kubernetes:
         k8s-system-api-server:
           url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-system-api-server.json
