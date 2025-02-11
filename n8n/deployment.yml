@@ -10,6 +10,8 @@ spec:
   template:
     metadata:
       annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "5678"
         vault.hashicorp.com/role: "role-n8n"
         vault.hashicorp.com/agent-inject: "true"
         vault.hashicorp.com/agent-inject-status: "update"

@@ -5,3 +5,4 @@ metadata:
 data:
   N8N_EDITOR_BASE_URL: https://n8n.pantufasuja.com.br
   WEBHOOK_URL: https://n8n.pantufasuja.com.br
+  N8N_METRICS: "true"
