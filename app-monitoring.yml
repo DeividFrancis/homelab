@@ -11,8 +11,8 @@ spec:
     path: monitoring-chart
     helm:
       valueFiles:
-        - loki-stack-values.yml
-        - grafana-agent-values.yml
+        - monitoring-chart/loki-stack-values.yml
+        - monitoring-chart/grafana-agent-values.yml
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
