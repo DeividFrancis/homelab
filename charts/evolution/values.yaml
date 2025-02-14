@@ -1,0 +1,20 @@
+name: evolution-api
+configmap:
+  name: evolution-configmap
+
+postgresql:
+  fullnameOverride: postgres
+  image:
+    tag: 17.2.0
+  auth:
+    password: wNWL525liqSlZFdl
+    username: postgres
+
+  commonLabels:
+    name: postgres
+    component: database
+    manager: helm
+
+global:
+  redis:
+    password: redispass

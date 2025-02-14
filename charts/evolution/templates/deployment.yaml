@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.name }}
+    spec:
+      containers:
+        - name: evolution-api
+          image: atendai/evolution-api:v2.1.1
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: {{ .Values.configmap.name }}
+          volumeMounts:
+            - name: evolution-pvc-store
+              mountPath: "/evolution/instances"
+      volumes:
+        - name: evolution-pvc-store
+          persistentVolumeClaim:
+            claimName: evolution-pvc

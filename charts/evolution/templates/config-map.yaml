@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.configmap.name }}
+data:
+  SERVER_URL: https://evolution.pantufasuja.com.br
+  CONFIG_SESSION_PHONE_CLIENT: PantufaSuja
+  AUTHENTICATION_TYPE: apikey
+  AUTHENTICATION_API_KEY: 5ZLH0gwOTBzKUMcZ
+  LOG_LEVEL: ERROR,WARN
+  DEL_INSTANCE: "false"
+  AUTHENTICATION_EXPOSE_IN_FETCH_INSTANCES: "true"
+  DATABASE_ENABLED: "true"
+  DATABASE_PROVIDER: postgresql
+  DATABASE_CONNECTION_URI: 'postgresql://postgres:wNWL525liqSlZFdl@postgres:5432/evolution?schema=public'
+  DATABASE_CONNECTION_CLIENT_NAME: evolution_exchange
+  DATABASE_SAVE_DATA_INSTANCE: "true"
+  DATABASE_SAVE_DATA_NEW_MESSAGE: "true"
+  DATABASE_SAVE_MESSAGE_UPDATE: "true"
+  DATABASE_SAVE_DATA_CONTACTS: "true"
+  DATABASE_SAVE_DATA_CHATS: "true"
+  DATABASE_SAVE_DATA_LABELS: "true"
+  DATABASE_SAVE_DATA_HISTORIC: "true"
+  CACHE_REDIS_ENABLED: "false"
+  CACHE_REDIS_URI: redis://redis:6379/6
+  CACHE_REDIS_PREFIX_KEY: evolution
+  CACHE_REDIS_SAVE_INSTANCES: "false"
+  CACHE_LOCAL_ENABLED: "true"
+  DIFY_ENABLED: "false"
+  CHATWOOT_ENABLED: "false"
