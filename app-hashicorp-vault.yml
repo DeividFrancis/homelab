@@ -11,6 +11,8 @@ spec:
     targetRevision: 0.29.1
     helm:
       values: |
+        csi:
+          enabled: true
         ui:
           enabled: true
           serviceType: ClusterIP
