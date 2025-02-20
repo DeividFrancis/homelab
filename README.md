@@ -14,16 +14,19 @@
 # Continuous Deploymet (CD)
 - argo-cd
 
-# Monitoramento
+# Monitoring
 - prometheus
 - grafana
 - loki
 
 # Apps
-- n8n
+- n8n (lowcode automation)
+- evolution-api (whatsapp api)
 
 # Secrets
-- Hashcorp Valt
+- Hashcorp Valt 
+  - Secrets strategy (vault-agent-inject, vault-csi)
+  - Policies and roles provisioned by terraform
 
 # Persistence Volume (PV) / Persistence Volume Claim (PVC)
-- Local
+- local-path (default k3s)
