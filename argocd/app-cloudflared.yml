@@ -1,17 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: n8n
+  name: cloudflare-tunnel
   namespace: argocd
 spec:
   project: default
   source:
     repoURL: https://github.com/DeividFrancis/homelab.git
     targetRevision: main
-    path: n8n
+    path: k8s/cloudflare
   destination:
     server: https://kubernetes.default.svc
-    namespace: apps
+    namespace: network
   syncPolicy:
     automated:
       selfHeal: true

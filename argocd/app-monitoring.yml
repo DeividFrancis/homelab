@@ -1,17 +1,21 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cloudflare-tunnel
+  name: monitoring
   namespace: argocd
 spec:
   project: default
   source:
     repoURL: https://github.com/DeividFrancis/homelab.git
     targetRevision: main
-    path: cloudflare
+    path: charts/monitoring
+    helm:
+      valueFiles:
+        - loki-stack-values.yaml
+        - grafana-agent-values.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: network
+    namespace: monitoring
   syncPolicy:
     automated:
       selfHeal: true

@@ -27,7 +27,6 @@ postgresql:
     name: postgres
     component: database
     manager: helm
-
-global:
-  redis:
-    password: redispass
+# global:
+#   redis:
+#     password: redispass
