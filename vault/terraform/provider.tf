@@ -9,4 +9,5 @@ terraform {
 
 provider "vault" {
   address = "https://vault.pantufasuja.com.br"
+  # token = export VAULT_TOKEN="MY-VAULT-TOKEN"
 }
