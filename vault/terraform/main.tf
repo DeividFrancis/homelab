@@ -18,7 +18,8 @@ variable "pantulab" {
   default = [
     { name = "evolution", ns = "evolution" },
     { name = "n8n", ns = "apps" },
-    { name = "monitoring", ns = "monitoring" }
+    { name = "monitoring", ns = "monitoring" },
+    { name = "cloudflare", ns = "network" }
   ]
 }
 
